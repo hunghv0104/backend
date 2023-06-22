@@ -13,7 +13,9 @@ var adminRouter = require('./routes/admin')
 
 var app = express();
 //cors
-app.use(cors())
+app.use(cors({
+  origin:["http://localhost:3000", "https://frontendfinal-5h94.onrender.com"]
+}))
 mongoose.connect("mongodb+srv://hungntgch220055:zOYfUqTL8MxVD5a7@cluster0.nev9qiq.mongodb.net/gch1102")
 .then(()=>console.log("ok"))
 // view engine setup
