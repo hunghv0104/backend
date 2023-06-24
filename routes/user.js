@@ -192,21 +192,51 @@ router.post('/payment', async(req, res) => {
 });
 
 //Display all payments
-router.get('/payments', async (req, res) => {
-  try {
-    // Fetch all payments from the database
-    // const payments = await PaymentModel.find().populate('products');
-    // console.log(payments)
-    const payments = await PaymentModel.find()
-    // console.log(payments)
-    res.json({ payments });
-  } catch (error) {
-    console.error('Fetch payments error:', error);
-    res.status(500).json({ error: 'Failed to fetch payments' });
-  }
+// router.get('/payments', async (req, res) => {
+//   try {
+//     // Fetch all payments from the database
+//     // const payments = await PaymentModel.find().populate('products');
+//     // console.log(payments)
+//     const payments = await PaymentModel.find()
+//     // console.log(payments)
+//     res.json({ payments });
+//   } catch (error) {
+//     console.error('Fetch payments error:', error);
+//     res.status(500).json({ error: 'Failed to fetch payments' });
+//   }
+// });
+
+router.get('/payment', (req, res) => {
+  const userId = req.query.userId
+  // const userId = window.localStorage.getItem('userId'); 
+  console.log(userId)
+  PaymentModel.findOne({ userId })
+    .then((payment) => {
+      if (payment) {
+        console.log(payment)
+        res.json(payment);
+      } else {
+        res.status(404).json({ error: 'Payment not found' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: 'Server error' });
+    });
 });
 
-
-
+router.get('/allPayment', (req, res) => {
+  PaymentModel.find({})
+    .then((payments) => {
+      if (payments.length > 0) {
+        console.log(payments);
+        res.json(payments);
+      } else {
+        res.status(404).json({ error: 'No payments found' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: 'Server error' });
+    });
+});
 
 module.exports = router;
