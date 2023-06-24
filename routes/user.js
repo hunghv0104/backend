@@ -207,14 +207,14 @@ router.post('/payment', async(req, res) => {
 // });
 
 router.get('/payment', (req, res) => {
-  const userId = req.query.userId
-  // const userId = window.localStorage.getItem('userId'); 
-  console.log(userId)
-  PaymentModel.findOne({ userId })
-    .then((payment) => {
-      if (payment) {
-        console.log(payment)
-        res.json(payment);
+  const userId = req.query.userId;
+  // const userId = window.localStorage.getItem('userId');
+  console.log(userId);
+  PaymentModel.find({ userId })  // Use "find" instead of "findOne"
+    .then((payments) => {
+      if (payments.length > 0) {
+        console.log(payments);
+        res.json(payments);
       } else {
         res.status(404).json({ error: 'Payment not found' });
       }
@@ -223,6 +223,7 @@ router.get('/payment', (req, res) => {
       res.status(500).json({ error: 'Server error' });
     });
 });
+
 
 router.get('/allPayment', (req, res) => {
   PaymentModel.find({})
