@@ -7,7 +7,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '/images/'); // Destination folder where uploaded files will be stored
+    cb(null, '../frontend/public/images/'); // Destination folder where uploaded files will be stored
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -17,18 +17,30 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
+//image upload using cloudinary
+const cloudinary = require('cloudinary').v2;
+
+// Configure Cloudinary with your API credentials
+cloudinary.config({
+  cloud_name: 'dxl3mam8f',
+  api_key: '659489334821216',
+  api_secret: 'TzIXi_iS-Q85aNcw6oW5AK9LmPc'
+});
+
 router.get('/', async(req, res)=>{
  const data = await ToyModel.find({})
  res.json({success : true, data:data})
 })
 
 //add
+
 router.post('/create', upload.single('image'), async (req, res) => {
   try {
     const { name, year, age_restriction, price, category, description } = req.body;
-
-    // Access the uploaded file using req.file
     const image = req.file;
+
+    // Upload the image file to Cloudinary
+    const uploadResult = await cloudinary.uploader.upload(image.path);
 
     // Create a new instance of the ToyModel and set the properties
     const toy = new ToyModel({
@@ -38,7 +50,7 @@ router.post('/create', upload.single('image'), async (req, res) => {
       price,
       category,
       description,
-      image: image.filename // Save the filename in the 'image' field
+      image: uploadResult.secure_url // Save the secure URL from Cloudinary
     });
 
     await toy.save();
@@ -49,6 +61,33 @@ router.post('/create', upload.single('image'), async (req, res) => {
     res.status(500).send({ success: false, message: 'Server error' });
   }
 });
+
+// router.post('/create', upload.single('image'), async (req, res) => {
+//   try {
+//     const { name, year, age_restriction, price, category, description } = req.body;
+
+//     // Access the uploaded file using req.file
+//     const image = req.file;
+
+//     // Create a new instance of the ToyModel and set the properties
+//     const toy = new ToyModel({
+//       name,
+//       year,
+//       age_restriction,
+//       price,
+//       category,
+//       description,
+//       image: image.filename // Save the filename in the 'image' field
+//     });
+
+//     await toy.save();
+
+//     res.send({ success: true, message: 'Added successfully', data: toy });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send({ success: false, message: 'Server error' });
+//   }
+// });
 
 // router.post('/create',  async(req, res)=>{
 //  const data = new ToyModel(req.body) //lay data tu req 

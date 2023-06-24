@@ -13,11 +13,7 @@ var adminRouter = require('./routes/admin')
 
 var app = express();
 //cors
-app.use(cors(
-  {
-    origin: 'https://frontend-test-ob4c.onrender.com', // Allow requests from this origin
-  }
-))
+app.use(cors())
 mongoose.connect("mongodb+srv://hungntgch220055:zOYfUqTL8MxVD5a7@cluster0.nev9qiq.mongodb.net/gch1102")
 .then(()=>console.log("ok"))
 // view engine setup
