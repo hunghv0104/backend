@@ -35,12 +35,12 @@ router.get('/', async(req, res)=>{
 //add
 router.post('/create', upload.single('image'), async (req, res) => {
   try {
-    alert('111111111111111111111')
+    console.log('111111111111111111111')
     const { name, year, age_restriction, price, category, description } = req.body;
-    alert('22222222222222222')
+    console.log('22222222222222222')
     // Access the uploaded file using req.file
     const image = req.file;
-    alert('333333333333333333333')
+    console.log('333333333333333333333')
     // Create a new instance of the ToyModel and set the properties
     const toy = new ToyModel({
       name,
@@ -51,9 +51,9 @@ router.post('/create', upload.single('image'), async (req, res) => {
       description,
       image: image.filename // Save the filename in the 'image' field
     });
-      alert('44444444444444444444444')
+      console.log('44444444444444444444444')
     await toy.save();
-      alert('555555555555555555555')
+      console.log('555555555555555555555')
     res.send({ success: true, message: 'Added successfully', data: toy });
   } catch (error) {
     console.error(error);
