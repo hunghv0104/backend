@@ -4,26 +4,16 @@ const ToyModel = require('../models/ToyModel')
 
 //Image upload
 const multer = require('multer');
-// const { v4: uuidv4 } = require('uuid');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../frontend/public/images/'); // Destination folder where uploaded files will be stored
+    cb(null, '/images/'); // Destination folder where uploaded files will be stored
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     cb(null, uniqueSuffix + '-' + file.originalname); // Set the filename of the uploaded file
   }
 });
-
-// const fileFilter = (req, file, cb) => {
-//     const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-//     if(allowedFileTypes.includes(file.mimetype)) {
-//         cb(null, true);
-//     } else {
-//         cb(null, false);
-//     }
-// }
 
 const upload = multer({ storage: storage })
 
