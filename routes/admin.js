@@ -77,10 +77,11 @@ router.post('/create', upload.single('image'), async (req, res) => {
 
 router.put('/update', upload.single('image'), async (req, res) => {
   try {
+    console.log('111111111111111111111')
     const { _id, ...rest } = req.body;
     const { name, year, age_restriction, price, category, description } = req.body;
     const image = req.file;
-
+      console.log('2222222222222222')
     let newData = {
       name,
       year,
