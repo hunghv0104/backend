@@ -106,6 +106,7 @@ router.put('/update', upload.single('image'), async (req, res) => {
 
 //delete
 router.delete('/delete/:id', async(req, res)=>{
+  console.log("Deleted success")
  const id = req.params.id
  await ToyModel.deleteOne({_id:id})
  res.send({success: true, message:"Deleted successfully"})
