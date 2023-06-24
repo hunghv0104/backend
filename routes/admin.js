@@ -56,6 +56,7 @@ router.post('/create', upload.single('image'), async (req, res) => {
       console.log('555555555555555555555')
     res.send({ success: true, message: 'Added successfully', data: toy });
   } catch (error) {
+    console.log("check itttttttttttttt")
     console.error(error);
     res.status(500).send({ success: false, message: 'Server error' });
   }
