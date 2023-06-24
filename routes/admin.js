@@ -35,12 +35,11 @@ router.get('/', async(req, res)=>{
 //add
 router.post('/create', upload.single('image'), async (req, res) => {
   try {
-    console.log('111111111111111111111')
     const { name, year, age_restriction, price, category, description } = req.body;
-    console.log('22222222222222222')
+
     // Access the uploaded file using req.file
     const image = req.file;
-    console.log('333333333333333333333')
+
     // Create a new instance of the ToyModel and set the properties
     const toy = new ToyModel({
       name,
@@ -51,12 +50,11 @@ router.post('/create', upload.single('image'), async (req, res) => {
       description,
       image: image.filename // Save the filename in the 'image' field
     });
-      console.log('44444444444444444444444')
+
     await toy.save();
-      console.log('555555555555555555555')
+
     res.send({ success: true, message: 'Added successfully', data: toy });
   } catch (error) {
-    console.log("check itttttttttttttt")
     console.error(error);
     res.status(500).send({ success: false, message: 'Server error' });
   }
@@ -78,11 +76,10 @@ router.post('/create', upload.single('image'), async (req, res) => {
 
 router.put('/update', upload.single('image'), async (req, res) => {
   try {
-    console.log('111111111111111111111')
     const { _id, ...rest } = req.body;
     const { name, year, age_restriction, price, category, description } = req.body;
     const image = req.file;
-      console.log('2222222222222222')
+
     let newData = {
       name,
       year,
@@ -107,7 +104,6 @@ router.put('/update', upload.single('image'), async (req, res) => {
 
 //delete
 router.delete('/delete/:id', async(req, res)=>{
-  console.log("Deleted success")
  const id = req.params.id
  await ToyModel.deleteOne({_id:id})
  res.send({success: true, message:"Deleted successfully"})

@@ -16,7 +16,6 @@ var app = express();
 app.use(cors(
   {
     origin: 'https://frontend-test-ob4c.onrender.com', // Allow requests from this origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
   }
 ))
 mongoose.connect("mongodb+srv://hungntgch220055:zOYfUqTL8MxVD5a7@cluster0.nev9qiq.mongodb.net/gch1102")
